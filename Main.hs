@@ -40,6 +40,7 @@ view = do
     Left err -> putStrLn err
     Right ps -> putStrLn $ unlines $ fuck [0..] ps
 
+remove :: IO()
 remove = do
   putStrLn "Here is your cred: "
   view
