@@ -24,7 +24,15 @@ promptLine prompt = do
   getLine
 
 main :: IO()
-main = putStrLn "wut"
+main = do
+  putStrLn "Hey there what are you wanna do?"
+  putStrLn "add, view, remove"
+  x <- getLine
+  case x of
+    "add"    -> add
+    "view"   -> view
+    "remove" -> remove
+    _        -> putStrLn "ops command not found"
 
 add :: IO()
 add = do
