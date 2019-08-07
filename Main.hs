@@ -3,6 +3,7 @@
 
 import           Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as BS
+import           Data.List
 import           GHC.Generics
 import           System.Directory
 
@@ -37,8 +38,22 @@ view = do
   val <- decoding
   case val of
     Left err -> putStrLn err
-    -- Right ps -> print ps
     Right ps -> putStrLn $ unlines $ fuck [0..] ps
+
+remove = do
+  putStrLn "Here is your cred: "
+  view
+  num <- promptLine "what number do you want to delete? "
+  val <- decoding
+  case val of
+    Left err -> putStrLn err
+    Right ps -> writing . map (\x -> snd x) . filtering (read num) . zipping $ ps
+
+zipping :: [a] -> [(Integer, a)]
+zipping = zip [0..]
+
+filtering :: Eq a => a -> [(a, b)] -> [(a, b)]
+filtering n = filter (\x -> n /= (fst x))
 
 fuck :: [Integer] -> [Cred] -> [String]
 fuck = zipWith (\n x ->
@@ -60,6 +75,7 @@ askCred = do
   title <- promptLine "what is title? "
   email <- promptLine "what is email? "
   password <- promptLine "what is password? "
+  putStrLn "Thank you, have a good day"
   return [title, email, password]
 
 createCred :: String -> String -> String -> Cred
