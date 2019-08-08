@@ -23,16 +23,18 @@ promptLine prompt = do
   putStr prompt
   getLine
 
+dispatch :: String -> IO()
+dispatch "add"    = add
+dispatch "view"   = view
+dispatch "remove" = remove
+dispatch command  = putStrLn $ "upss " ++ command ++ " doesn't exist"
+
 main :: IO()
 main = do
   putStrLn "Hey there what are you wanna do?"
   putStrLn "add, view, remove"
   x <- getLine
-  case x of
-    "add"    -> add
-    "view"   -> view
-    "remove" -> remove
-    _        -> putStrLn "ops command not found"
+  dispatch x
 
 add :: IO()
 add = do
@@ -71,27 +73,32 @@ fuck = zipWith (\n x ->
   "Password: " ++ password x ++ "\n"
   )
 
-concating :: Cred -> IO()
-concating newVal = do
+concating :: Maybe Cred -> IO()
+concating (Just newVal) = do
   val <- decoding
   case val of
     Left err -> putStrLn err
     Right ps -> writing $ newVal : ps
+concating _ = putStrLn "upss no cred is created"
 
 askCred :: IO [String]
 askCred = do
   title <- promptLine "what is title? "
   email <- promptLine "what is email? "
   password <- promptLine "what is password? "
-  putStrLn "Thank you, have a good day"
+  -- putStrLn "Thank you, have a good day"
   return [title, email, password]
 
-createCred :: String -> String -> String -> Cred
-createCred t e p = Cred {
+createCred :: String -> String -> String -> Maybe Cred
+createCred "" _ _ = Nothing
+createCred _ "" _ = Nothing
+createCred _ _ "" = Nothing
+createCred t e p = Just Cred {
   title = t,
   email = e,
   password = p
 }
+
 
 writing :: ToJSON a => a -> IO ()
 writing val = BS.writeFile fileName $ encode $ val
