@@ -11,6 +11,7 @@ fileName = "./data.json"
 
 data Cred = Cred {
   title    :: String,
+  user     :: Maybe String,
   email    :: String,
   password :: String
 } deriving (Generic,Show)
@@ -38,8 +39,8 @@ main = do
 
 add :: IO()
 add = do
-  [title, email, password] <- askCred
-  let cred = createCred title email password
+  [title, user, email, password] <- askCred
+  let cred = createCred title (Just user) email password
   concating cred
 
 view :: IO()
@@ -65,12 +66,16 @@ zipping = zip [0..]
 filtering :: Eq a => a -> [(a, b)] -> [(a, b)]
 filtering n = filter (\x -> n /= (fst x))
 
+getUser (Just x) = x
+getUser _        = "null"
+
 fuck :: [Integer] -> [Cred] -> [String]
 fuck = zipWith (\n x ->
-  "No: " ++ show n ++ "\n" ++
-  "Title: " ++ title x ++ "\n" ++
-  "Email: " ++ email x ++ "\n" ++
-  "Password: " ++ password x ++ "\n"
+    "No: " ++ show n ++ "\n" ++
+    "Title: " ++ title x ++ "\n" ++
+    "User: " ++ (getUser (user x)) ++ "\n" ++
+    "Email: " ++ email x ++ "\n" ++
+    "Password: " ++ password x ++ "\n"
   )
 
 concating :: Maybe Cred -> IO()
@@ -84,17 +89,25 @@ concating _ = putStrLn "Upss can't write if there's no cred :)"
 askCred :: IO [String]
 askCred = do
   title <- promptLine "What is the title? "
+  user <- promptLine "What is the user? "
   email <- promptLine "What is the email? "
   password <- promptLine "What is the password? "
   -- putStrLn "Thank you, have a good day"
-  return [title, email, password]
+  return [title, user, email, password]
 
-createCred :: String -> String -> String -> Maybe Cred
-createCred "" _ _ = Nothing
-createCred _ "" _ = Nothing
-createCred _ _ "" = Nothing
-createCred t e p = Just Cred {
+createCred :: String -> Maybe String -> String -> String -> Maybe Cred
+createCred "" _ _ _ = Nothing
+createCred _ _ "" _ = Nothing
+createCred _ _ _ "" = Nothing
+createCred t (Just "") e p = Just Cred {
   title = t,
+  user = Nothing,
+  email = e,
+  password = p
+}
+createCred t (Just u) e p = Just Cred {
+  title = t,
+  user = Just u,
   email = e,
   password = p
 }

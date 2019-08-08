@@ -1,12 +1,1 @@
-[
-  {
-    "email": "insta@email.com",
-    "password": "agdagwdgwwajhgw",
-    "title": "insta"
-  },
-  {
-    "email": "twitter@email.com",
-    "password": "ksahdjgasjdjafsdadg",
-    "title": "twitter"
-  }
-]
+[{"email":"fb@gmail.com","user":"facebook","password":"wadawdawdwa","title":"fb"},{"email":"twitter@email.com","user":null,"password":"ksahdjgasjdjafsdadg","title":"twitter"}]
