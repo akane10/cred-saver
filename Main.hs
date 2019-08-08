@@ -1,7 +1,6 @@
 {-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-import           Crypto.Cipher.AES.Haskell
 import           Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as BS
 import           GHC.Generics
