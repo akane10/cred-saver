@@ -1,6 +1,7 @@
 {-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE OverloadedStrings #-}
 
+import           Crypto.Cipher.AES.Haskell
 import           Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as BS
 import           GHC.Generics
@@ -27,7 +28,7 @@ dispatch :: String -> IO()
 dispatch "add"    = add
 dispatch "view"   = view
 dispatch "remove" = remove
-dispatch command  = putStrLn $ "upss " ++ command ++ " doesn't exist"
+dispatch command  = putStrLn $ "Upss " ++ command ++ " doesn't exist"
 
 main :: IO()
 main = do
@@ -53,7 +54,7 @@ remove :: IO()
 remove = do
   putStrLn "Here is your cred: "
   view
-  num <- promptLine "what number do you want to delete? "
+  num <- promptLine "What number do you want to delete? "
   val <- decoding
   case val of
     Left err -> putStrLn err
@@ -79,13 +80,13 @@ concating (Just newVal) = do
   case val of
     Left err -> putStrLn err
     Right ps -> writing $ newVal : ps
-concating _ = putStrLn "upss no cred is created"
+concating _ = putStrLn "Upss can't write if there's no cred :)"
 
 askCred :: IO [String]
 askCred = do
-  title <- promptLine "what is title? "
-  email <- promptLine "what is email? "
-  password <- promptLine "what is password? "
+  title <- promptLine "What is the title? "
+  email <- promptLine "What is the email? "
+  password <- promptLine "What is the password? "
   -- putStrLn "Thank you, have a good day"
   return [title, email, password]
 
@@ -98,7 +99,6 @@ createCred t e p = Just Cred {
   email = e,
   password = p
 }
-
 
 writing :: ToJSON a => a -> IO ()
 writing val = BS.writeFile fileName $ encode $ val
