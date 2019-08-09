@@ -1,1 +1,1 @@
-# cred-saver
+# This repo contains bad code, really bad!!

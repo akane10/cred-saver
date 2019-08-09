@@ -1,14 +1,1 @@
-[
-  {
-    "email": "twitter@email.com",
-    "user": null,
-    "password": "awkdajsyas",
-    "title": "twitter"
-  },
-  {
-    "email": "facebook@gmail.com",
-    "user": null,
-    "password": "awdadawdassas",
-    "title": "facebook"
-  }
-]
+[{"email":"twitter@email.com","user":null,"password":"awkdajsyas","title":"twitter"}]
