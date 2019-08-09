@@ -1,6 +1,8 @@
 {-# LANGUAGE DeriveGeneric     #-}
 {-# LANGUAGE OverloadedStrings #-}
 
+module Lib where
+
 import           Data.Aeson
 import qualified Data.ByteString.Lazy.Char8 as BS
 import           GHC.Generics
@@ -30,8 +32,8 @@ dispatch "view"   = view
 dispatch "remove" = remove
 dispatch command  = putStrLn $ "Upss " ++ command ++ " doesn't exist"
 
-main :: IO()
-main = do
+someFunc :: IO()
+someFunc = do
   putStrLn "Hey there what are you wanna do?"
   putStrLn "add, view, remove"
   x <- getLine
@@ -73,7 +75,7 @@ fuck :: [Integer] -> [Cred] -> [String]
 fuck = zipWith (\n x ->
     "No: " ++ show n ++ "\n" ++
     "Title: " ++ title x ++ "\n" ++
-    "User: " ++ (getUser (user x)) ++ "\n" ++
+    "User: " ++ getUser (user x) ++ "\n" ++
     "Email: " ++ email x ++ "\n" ++
     "Password: " ++ password x ++ "\n"
   )
